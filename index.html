@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link rel='stylesheet'href='style.css'>
+</head>
+<body>
+  <div id="app" v-cloak>
+      <v-app>
+          <v-content>
+              <v-toolbar>
+                  <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+                  <v-toolbar-title>A Collector's Blog</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-toolbar-items>
+                      <v-btn flat @click='page="blog"'>Blog</v-btn>
+                      <v-btn flat @click='page="post"'>Post</v-btn>
+                  </v-toolbar-items>
+              </v-toolbar>
+              <v-navigation-drawer app v-model="drawer">
+                  <v-list>
+                      <v-list-tile v-for='post in posts'>
+                          <v-list-content>{{post.title}}</v-list-content>
+                      </v-list-tile>
+                  </v-list>
+              </v-navigation-drawer>
+              
+              <v-container grid-list-lg fliud v-if="page=='blog'">
+                  <v-layout>
+                      <v-flex xs3></v-flex>
+                      <v-flex xs6 text-xs-center>
+                          <div class='display-3'>Blogs</div>
+                          <v-layout column>
+                              <v-flex v-for="post in posts">
+                                  <v-hover>
+                                    <v-card slot-scope="{ hover }">
+                                      <v-img :src="post.image" height='200'>
+                                          <v-expand-transition>
+                                            <div v-if="hover" class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-3" style="height: 100%;">{{post.title}}</div>
+                                         </v-expand-transition>
+                                      </v-img>
+                                      <v-card-text>
+                                          <span class="caption"> By {{post.author}}</span>
+                                          <br>
+                                          <span class="caption"> {{post.date}}</span>
+                                          <br>
+                                          <span class="caption"> {{post.text}}</span>
+                                      </v-card-text>
+                                  </v-card>
+                                </v-hover>
+                              </v-flex>
+                          </v-layout>
+                      </v-flex>
+                    </v-layout>
+              </v-container>
+              
+              <v-container grid-list-lg fliud v-if="page=='post'">
+                  <v-layout>
+                      <v-flex xs3></v-flex>
+                      <v-flex xs6 text-xs-center>
+                          <div class='display-3'>Create a Post</div>
+                          <v-layout center column>
+                                   <v-flex xs12 sm6 md3>
+                                        <v-text-field v-model="newPost.title" label="Title"></v-text-field>
+                                    </v-flex>
+                                   <v-flex xs12 sm6 md3>
+                                        <v-text-field v-model="newPost.author" label="Name"></v-text-field>
+                                    </v-flex>
+                                   <v-flex xs12 sm6 md3>
+                                        <v-text-field v-model="newPost.image" label="Image Link"></v-text-field>
+                                    </v-flex>
+                              <v-flex xs12 sm6 d-flex>
+                                    <v-select :items="categories" label="Select a Category" v-model='newPost.category'></v-select>
+                              </v-flex>
+                              <v-flex xs6>
+                                    <v-textarea name="post description" label="Describe your image or tell us about your day!" v-model="newPost.text"></v-textarea>
+                                </v-flex>
+                              <v-btn @click='addPost()'>Submit</v-btn>
+                          </v-layout>
+                      </v-flex>
+                    </v-layout>
+              </v-container>
+       </v-content>
+    </v-app>
+  </div>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+  <script src="code.js"></script>
+</body>
+</html>
