@@ -25,6 +25,7 @@ var app = new Vue ( {
             image: '',
             text: ''
         },
+        server_url: "https://collector-blog-17.herokuapp.com"
     },
     created: function() {
         this.getPosts();
@@ -32,7 +33,7 @@ var app = new Vue ( {
     
     methods: {
         getPosts: function() {
-            fetch('http://localhost:3000/posts').then(function(res) {
+            fetch(this.server_url+"/posts").then(function(res) {
                 res.json().then(function(data) {
                     console.log(data);
                     app.posts = data.posts;
